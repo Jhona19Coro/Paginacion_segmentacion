@@ -1,18 +1,24 @@
-def segment(items, segment_size):
+import numpy as np
+
+# Crear un array de ejemplo
+data = np.random.randint(0, 100, size=(100, 5))  # Array de 100 filas y 5 columnas
+
+def segment_array(array, segment_size):
     """
-    Función para segmentar una lista de elementos en segmentos de tamaño especificado.
+    Función para segmentar un array NumPy en segmentos de tamaño especificado.
 
     Args:
-    - items: Lista de elementos a segmentar.
+    - array: Array NumPy a segmentar.
     - segment_size: Tamaño de cada segmento.
 
     Returns:
-    - Una lista de segmentos, donde cada segmento contiene segment_size elementos.
+    - Una lista de segmentos, donde cada segmento contiene segment_size filas.
     """
-    return [items[i:i + segment_size] for i in range(0, len(items), segment_size)]
+    num_rows = array.shape[0]
+    return [array[i:i + segment_size, :] for i in range(0, num_rows, segment_size)]
 
 # Ejemplo de uso:
-data = list(range(1, 21))  # Crear una lista de números del 1 al 20
-segment_size = 5
-result = segment(data, segment_size)
+segment_size = 20
+result = segment_array(data, segment_size)
 print(result)
+
