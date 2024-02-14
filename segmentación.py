@@ -6,23 +6,32 @@ data = {'ID': range(1, 101),
         'Age': [20 + i for i in range(100)]}
 df = pd.DataFrame(data)
 
-def segment_dataframe(dataframe, segment_size):
+def paginate_and_segment_dataframe(dataframe, page_size, page_number, segment_size):
     """
-    Función para segmentar un DataFrame en segmentos de tamaño especificado.
+    Función para paginar y segmentar un DataFrame.
 
     Args:
-    - dataframe: DataFrame a segmentar.
+    - dataframe: DataFrame a paginar y segmentar.
+    - page_size: Tamaño de cada página.
+    - page_number: Número de página a recuperar (comenzando desde 1).
     - segment_size: Tamaño de cada segmento.
 
     Returns:
-    - Una lista de segmentos, donde cada segmento contiene segment_size filas.
+    - El segmento especificado del DataFrame paginado, o None si está fuera de rango.
     """
-    num_rows = len(dataframe)
-    return [dataframe.iloc[i:i + segment_size, :] for i in range(0, num_rows, segment_size)]
+    start_index = (page_number - 1) * page_size
+    end_index = start_index + page_size
+    paginated_data = dataframe.iloc[start_index:end_index]
+    
+    segment_start_index = 0
+    segment_end_index = segment_size
+    segment_data = paginated_data.iloc[segment_start_index:segment_end_index]
+    
+    return segment_data
 
 # Ejemplo de uso:
-segment_size = 20
-result = segment_dataframe(df, segment_size)
+page_number = 2
+page_size = 10
+segment_size = 5
+result = paginate_and_segment_dataframe(df, page_size, page_number, segment_size)
 print(result)
-
-
